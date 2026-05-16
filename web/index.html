@@ -4,11 +4,85 @@
         <title>Academic Advisor Appointment System</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .container {
+                text-align: center;
+                background: white;
+                padding: 60px 40px;
+                border-radius: 10px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+                max-width: 500px;
+                width: 90%;
+            }
+            
+            h1 {
+                color: #333;
+                margin-bottom: 15px;
+                font-size: 2.5em;
+            }
+            
+            .subtitle {
+                color: #666;
+                font-size: 1.1em;
+                margin-bottom: 40px;
+                line-height: 1.6;
+            }
+            
+            .login-btn {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 15px 50px;
+                font-size: 1.1em;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: transform 0.3s, box-shadow 0.3s;
+                font-weight: 600;
+                text-decoration: none;
+                display: inline-block;
+            }
+            
+            .login-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+            }
+            
+            .login-btn:active {
+                transform: translateY(0);
+            }
+        </style>
     </head>
     <body>
+        <div class="container">
+            <h1>Welcome</h1>
+            <p class="subtitle">
+                Academic Advisor Appointment System
+                <br>
+                <br>
+                Manage your academic appointments efficiently and stay on track with your advisor.
+            </p>
+            <button class="login-btn" onclick="redirectToLogin()">Login</button>
+        </div>
+
         <script>
-            // Redirect to login page
-            window.location.href = "login.jsp";
+            function redirectToLogin() {
+                window.location.href = "login.jsp";
+            }
         </script>
     </body>
 </html>

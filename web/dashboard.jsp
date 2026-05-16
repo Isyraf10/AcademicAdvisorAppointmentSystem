@@ -2,16 +2,23 @@
     Document   : dashboard
     Created on : 5 Apr 2026
     Author     : isyra
-    Purpose    : Dashboard page for authenticated users
+    Purpose    : Dashboard page for authenticated users with role display
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     // Check if user is logged in
-    String username = (String) session.getAttribute("username");
-    if (username == null) {
+    String noMatric = (String) session.getAttribute("noMatric");
+    String role = (String) session.getAttribute("role");
+    
+    if (noMatric == null) {
         response.sendRedirect("login.jsp");
         return;
+    }
+    
+    // Set default role if not present (for backward compatibility)
+    if (role == null) {
+        role = "student";
     }
 %>
 <!DOCTYPE html>
@@ -20,185 +27,17 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dashboard - Academic Advisor</title>
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-
-            body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                background: #f5f5f5;
-            }
-
-            .navbar {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
-                padding: 20px 40px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            }
-
-            .navbar h1 {
-                font-size: 24px;
-                font-weight: 600;
-            }
-
-            .nav-right {
-                display: flex;
-                align-items: center;
-                gap: 20px;
-            }
-
-            .user-info {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
-
-            .user-avatar {
-                width: 40px;
-                height: 40px;
-                background: rgba(255, 255, 255, 0.3);
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 20px;
-            }
-
-            .logout-btn {
-                background: rgba(255, 255, 255, 0.2);
-                color: white;
-                border: 1px solid white;
-                padding: 8px 16px;
-                border-radius: 5px;
-                cursor: pointer;
-                font-size: 14px;
-                transition: all 0.3s;
-                text-decoration: none;
-                display: inline-block;
-            }
-
-            .logout-btn:hover {
-                background: rgba(255, 255, 255, 0.3);
-            }
-
-            .container {
-                max-width: 1200px;
-                margin: 40px auto;
-                padding: 20px;
-            }
-
-            .welcome-card {
-                background: white;
-                padding: 30px;
-                border-radius: 10px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                margin-bottom: 30px;
-            }
-
-            .welcome-card h2 {
-                color: #333;
-                margin-bottom: 10px;
-                font-size: 26px;
-            }
-
-            .welcome-card p {
-                color: #666;
-                font-size: 16px;
-                line-height: 1.6;
-            }
-
-            .dashboard-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 20px;
-                margin-top: 30px;
-            }
-
-            .dashboard-card {
-                background: white;
-                padding: 25px;
-                border-radius: 10px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                border-top: 4px solid #667eea;
-                transition: all 0.3s;
-            }
-
-            .dashboard-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-            }
-
-            .dashboard-card h3 {
-                color: #333;
-                margin-bottom: 15px;
-                font-size: 18px;
-            }
-
-            .dashboard-card p {
-                color: #666;
-                font-size: 14px;
-                line-height: 1.6;
-                margin-bottom: 15px;
-            }
-
-            .btn {
-                display: inline-block;
-                padding: 10px 20px;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
-                text-decoration: none;
-                border-radius: 5px;
-                font-size: 13px;
-                font-weight: 600;
-                transition: all 0.3s;
-                border: none;
-                cursor: pointer;
-            }
-
-            .btn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-            }
-
-            .session-info {
-                background: #f9f9f9;
-                padding: 15px;
-                border-radius: 5px;
-                margin-top: 20px;
-                font-size: 12px;
-                color: #666;
-                border-left: 4px solid #667eea;
-            }
-
-            @media (max-width: 768px) {
-                .navbar {
-                    padding: 15px 20px;
-                    flex-direction: column;
-                    gap: 10px;
-                }
-
-                .container {
-                    margin: 20px 10px;
-                }
-
-                .dashboard-grid {
-                    grid-template-columns: 1fr;
-                }
-            }
-        </style>
+        <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
         <div class="navbar">
             <h1>Academic Advisor System</h1>
             <div class="nav-right">
                 <div class="user-info">
-                    <span>Welcome, <strong><%= username %></strong></span>
+                    <div class="user-details">
+                        <span class="username"><%= noMatric %></span>
+                        <span class="user-role"><%= role %></span>
+                    </div>
                 </div>
                 <a href="logout.jsp" class="logout-btn">Logout</a>
             </div>
@@ -208,9 +47,54 @@
             <div class="welcome-card">
                 <h2>Welcome to Academic Advisor Appointment System</h2>
                 <p>You have successfully logged in to your account. From here, you can manage your appointments, schedule sessions with your academic advisor, and view your academic progress.</p>
+                <div class="role-badge"><%= role.toUpperCase() %></div>
+                
+                <% if ("admin".equals(role)) { %>
+                    <p style="margin-top: 10px;"><strong>Admin Access:</strong> You have full system access including all operations.</p>
+                <% } else if ("advisor".equals(role)) { %>
+                    <p style="margin-top: 10px;"><strong>Advisor Access:</strong> You can view and manage appointments with students.</p>
+                <% } else if ("student".equals(role)) { %>
+                    <p style="margin-top: 10px;"><strong>Student Access:</strong> You can view your information but cannot make changes.</p>
+                <% } %>
             </div>
 
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>Manage Schedule</h3>
+                    <p>Set your consultation availability and manage your time slots.</p>
+                    <% if ("admin".equals(role) || "advisor".equals(role)) { %>
+                        <a href="ManageScheduleServlet" class="btn">→ Manage Schedule</a>
+                    <% } else { %>
+                        <button class="btn" disabled>Available to Advisors</button>
+                    <% } %>
+                </div>
 
+                <div class="dashboard-card">
+                    <h3>My Appointments</h3>
+                    <p>View and manage your scheduled appointments and bookings.</p>
+                    <a href="ListAppointmentsServlet" class="btn">→ View Appointments</a>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Consultation Records</h3>
+                    <p>Access meeting notes and track your academic progress.</p>
+                    <a href="ManageRecordServlet" class="btn">→ View Records</a>
+                </div>
+
+                <% if ("admin".equals(role)) { %>
+                    <div class="dashboard-card">
+                        <h3> System Overview</h3>
+                        <p>Administrative dashboard with system-wide statistics.</p>
+                        <a href="#" class="btn" disabled>Coming Soon</a>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3>Reports</h3>
+                        <p>View system statistics and appointment analytics.</p>
+                        <a href="#" class="btn" disabled>Coming Soon</a>
+                    </div>
+                <% } %>
         </div>
     </body>
 </html>
+
