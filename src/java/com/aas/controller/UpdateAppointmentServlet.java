@@ -1,14 +1,10 @@
 package com.aas.controller;
 
 import com.aas.dao.AppointmentDAO;
-import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
+import java.io.IOException;
 
 @WebServlet("/UpdateAppointmentServlet")
 public class UpdateAppointmentServlet extends HttpServlet {
@@ -39,8 +35,9 @@ public class UpdateAppointmentServlet extends HttpServlet {
                     success = appointmentDAO.rejectAppointmentWithReason(appointmentId, reason);
                 }
             } else if ("student".equals(role) && "Edit".equals(action)) {
-                String description = request.getParameter("description");
-                success = appointmentDAO.editAppointmentDetails(appointmentId, description);
+                String appointmentType = request.getParameter("appointmentType");
+                String additionalNotes = request.getParameter("additionalNotes");
+                success = appointmentDAO.editAppointmentDetails(appointmentId, appointmentType, additionalNotes);
             }
 
             if (success) {

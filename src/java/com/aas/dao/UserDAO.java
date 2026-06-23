@@ -30,12 +30,22 @@ public class UserDAO {
                 }
             }
         } catch (SQLException e) {
+            if (isConnectionError(e)) {
+                System.err.println("Login database connection error: " + e.getMessage());
+                return null;
+            }
+
             user = authenticateLegacyUser(email, password);
             if (user == null) {
                 System.err.println("Login Error using current schema: " + e.getMessage());
             }
         }
         return user;
+    }
+
+    private boolean isConnectionError(SQLException e) {
+        String sqlState = e.getSQLState();
+        return sqlState != null && sqlState.startsWith("08");
     }
 
     private User authenticateLegacyUser(String email, String password) {

@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="java.util.List, com.aas.model.Appointment" %>
 <%
     HttpSession sess = request.getSession(false);
@@ -47,6 +47,7 @@
                             <th>Requested Date & Time</th>
                             <th>Venue</th>
                             <th>Type</th>
+                            <th>Additional Notes</th> <%-- Kekal Th head kau --%>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -57,7 +58,7 @@
                             if (pendingList == null || pendingList.isEmpty()) {
                         %>
                             <tr>
-                                <td colspan="7" class="text-center text-muted" style="padding: 3rem;">
+                                <td colspan="8" class="text-center text-muted" style="padding: 3rem;">
                                     <p> All caught up! No pending appointment requests.</p>
                                 </td>
                             </tr>
@@ -68,9 +69,10 @@
                             <tr>
                                 <td><strong>#<%= apt.getAppointmentId() %></strong></td>
                                 <td><strong><%= apt.getStudentName() %></strong></td>
-                                <td><%= apt.getAppointmentDate() %><br><small style="color: var(--gray-500);"><%= apt.getStartTime() %></small></td>
+                                <td><%= apt.getAppointmentDate() %><br><small style="color: var(--gray-500);"><%= apt.getStartTime() %> - <%= apt.getEndTime() %></small></td>
                                 <td><%= apt.getLocation() %></td>
                                 <td><strong><%= apt.getAppointmentType() %></strong></td>
+                                <td><%= apt.getAdditionalNotes() %></td> <%-- FIX: Tukar function panggil data huraian baru --%>
                                 <td><span class="status-badge status-pending">Pending</span></td>
                                 <td>
                                     <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
@@ -112,7 +114,3 @@
 <jsp:include page="/includes/footer.jsp" />
 </body>
 </html>
-
-
-
-

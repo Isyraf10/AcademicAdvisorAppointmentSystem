@@ -1,6 +1,7 @@
 package com.aas.util;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DBConnection {
 
@@ -8,30 +9,19 @@ public class DBConnection {
             "jdbc:mysql://localhost:3306/academic_advisor";
 
     private static final String USER = "root";
-    private static final String PASSWORD = "admin";
+    private static final String PASSWORD = "";
 
-    public static Connection getConnection() {
-
-        Connection conn = null;
+    public static Connection getConnection() throws SQLException {
 
         try {
-
             Class.forName("com.mysql.cj.jdbc.Driver");
-
-            conn = DriverManager.getConnection(
+            return DriverManager.getConnection(
                     URL, 
                     USER,
                     PASSWORD
             );
-
-            System.out.println("Database Connected!");
-
-        } catch (Exception e) {
-
-            System.out.println("Connection Failed!");
-            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new SQLException("MySQL JDBC driver was not found. Check that mysql-connector-j is included in WEB-INF/lib.", e);
         }
-
-        return conn;
     }
 }

@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%
     HttpSession sess = request.getSession(false);
     if (sess == null || !"student".equalsIgnoreCase((String)sess.getAttribute("role"))) {
@@ -49,8 +49,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="description">Additional Notes / Details</label>
-                    <textarea id="description" name="description" class="form-control" placeholder="Provide any details or specific topics you'd like to discuss..." style="min-height: 120px;"></textarea>
+                    <label for="additionalNotes">Additional Notes / Details</label>
+                    <%-- FIX: Tukar attribute id and name field kepada parameter baru --%>
+                    <textarea id="additionalNotes" name="additionalNotes" class="form-control" placeholder="Provide any details or specific topics you'd like to discuss..." style="min-height: 120px;"></textarea>
                 </div>
 
                 <div class="form-group" style="display: flex; gap: 1rem; margin-top: 2rem;">
@@ -67,8 +68,3 @@
 <jsp:include page="/includes/footer.jsp" />
 </body>
 </html>
-
-
-
-
-

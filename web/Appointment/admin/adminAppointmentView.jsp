@@ -60,8 +60,8 @@
                         %>
                             <tr>
                                 <td><strong>#<%= apt.getAppointmentId() %></strong></td>
-                                <td><code style="background: var(--gray-100); padding: 0.25rem 0.5rem; border-radius: 4px;">User #<%= apt.getStudentId() %></code></td>
-                                <td><code style="background: var(--gray-100); padding: 0.25rem 0.5rem; border-radius: 4px;">User #<%= apt.getAdvisorId() %></code></td>
+                                <td><code style="background: var(--gray-100); padding: 0.25rem 0.5rem; border-radius: 4px;"><%= apt.getStudentName() != null ? apt.getStudentName() : ("User #" + apt.getStudentId()) %></code></td>
+                                <td><code style="background: var(--gray-100); padding: 0.25rem 0.5rem; border-radius: 4px;"><%= apt.getAdvisorName() != null ? apt.getAdvisorName() : ("User #" + apt.getAdvisorId()) %></code></td>
                                 <td><%= apt.getAppointmentType() %></td>
                                 <td><%= apt.getAppointmentDate() %></td>
                                 <td><span class="status-badge <%= statusClass %>"><%= apt.getStatus() %></span></td>

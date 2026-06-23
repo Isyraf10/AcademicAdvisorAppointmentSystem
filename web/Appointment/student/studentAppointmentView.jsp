@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="java.util.List, com.aas.model.Appointment" %>
 <%
     HttpSession sess = request.getSession(false);
@@ -48,6 +48,7 @@
                             <th>Advisor</th>
                             <th>Venue</th>
                             <th>Type</th>
+                            <th>Additional Notes</th> <%-- Kekalkan Th head kau --%>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -58,7 +59,7 @@
                             if (list == null || list.isEmpty()) {
                         %>
                             <tr>
-                                <td colspan="7" class="text-center text-muted" style="padding: 3rem;">
+                                <td colspan="8" class="text-center text-muted" style="padding: 3rem;">
                                     <p>No appointments yet. <a href="<%= request.getContextPath() %>/Appointment/bookAppointment.jsp">Book your first appointment now!</a></p>
                                 </td>
                             </tr>
@@ -71,11 +72,20 @@
                         %>
                             <tr>
                                 <td><strong>#<%= apt.getAppointmentId() %></strong></td>
-                                <td><%= apt.getAppointmentDate() %><br><small style="color: var(--gray-500);"><%= apt.getStartTime() %></small></td>
-                                <td><%= apt.getAdvisorId() %></td>
+                                <td><%= apt.getAppointmentDate() %><br><small style="color: var(--gray-500);"><%= apt.getStartTime() %> - <%= apt.getEndTime() %></small></td>
+                                <td><%= apt.getAdvisorName() != null ? apt.getAdvisorName() : apt.getAdvisorId() %></td>
                                 <td><%= apt.getLocation() %></td>
                                 <td><strong><%= apt.getAppointmentType() %></strong></td>
-                                <td><span class="status-badge <%= statusClass %>"><%= apt.getStatus() %></span></td>
+                                <td><%= apt.getAdditionalNotes() %></td> <%-- FIX: Tukar function panggil data huraian baru --%>
+                                <td>
+                                    <span class="status-badge <%= statusClass %>"><%= apt.getStatus() %></span>
+                                    <%-- FIX: Tambah suntikan sebab reject di bawah status badge --%>
+                                    <% if ("Rejected".equalsIgnoreCase(apt.getStatus()) && apt.getRejectionReason() != null) { %>
+                                        <div style="font-size: 11px; color: var(--danger); margin-top: 4px; font-style: italic;">
+                                            Reason: <%= apt.getRejectionReason() %>
+                                        </div>
+                                    <% } %>
+                                </td>
                                 <td>
                                     <% if ("Pending".equalsIgnoreCase(apt.getStatus())) { %>
                                         <a href="<%= request.getContextPath() %>/Appointment/editAppointment.jsp?id=<%= apt.getAppointmentId() %>" class="btn btn-small btn-ghost" style="color: var(--primary);">Edit</a>
@@ -99,7 +109,3 @@
 <jsp:include page="/includes/footer.jsp" />
 </body>
 </html>
-
-
-
-
