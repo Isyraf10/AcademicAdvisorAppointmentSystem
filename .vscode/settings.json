@@ -1,0 +1,9 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\apache-tomcat-10.1.53\\lib\\jakarta.servlet.jsp.jstl-3.0.1.jar",
+        "c:\\apache-tomcat-10.1.53\\lib\\jakarta.servlet.jsp.jstl-api-3.0.2.jar",
+        "c:\\apache-tomcat-10.1.53\\lib\\mysql-connector-j-9.6.0.jar",
+        "c:\\apache-tomcat-10.1.53\\lib\\servlet-api.jar"
+    ]
+}
